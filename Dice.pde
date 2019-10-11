@@ -6,9 +6,25 @@ void setup()
 void draw()
 {
 	background(192);
-	Die flippy = new Die(50,150);
-	flippy.show();
-	flippy.roll();
+	int numDots = 0;
+	for(int y = 10; y <= 400; y = y + 60){
+		for(int x = 10; x < 450; x = x + 60){
+			Die bob = new Die(x,y);
+			bob.roll();
+			bob.show();
+			if(bob.one == true ||
+				bob.two == true ||
+				bob.three == true ||
+				bob.four == true ||
+				bob.five == true &&
+				bob.six == true) {
+				numDots++;
+			}
+		}
+	}
+  textSize(20);
+  fill(0);
+  text("There are " + numDots + " dots on the screen.",100,470);
 }
 void mousePressed()
 {
@@ -22,46 +38,68 @@ class Die //models one single dice cube
 	boolean four;
 	boolean five;
 	boolean six;
+	int myX, myY;
 	
 	Die(int x, int y) //constructor
 	{
+		myX = x;
+		myY = y;
 		roll();
 	}
 	void roll()
 	{
 		if((int)(Math.random()*6)+1 <= 1){
 			one = true;
+			two = three = four = five = six = false;
 		} else if((int)(Math.random()*6)+1 <= 2){
 			two = true;
+			one = three = four = five = six = false;
 		} else if((int)(Math.random()*6)+1 <= 3){
 			three = true;
+			one = two = four = five = six = false;
 		} else if((int)(Math.random()*6)+1 <= 4){
 			four = true;
+			one = two = three = five = six = false;
 		} else if((int)(Math.random()*6)+1 <= 5){
 			five = true;
+			one = two = three = four = six = false;
 		} else if((int)(Math.random()*6)+1 <= 6){
 			six = true;
+			one = two = three = four = five = false;
 		}
 	}
 	void show()
 	{
-		fill(255);
-		rect(50,50,50,50);
-		fill(0);
+		fill((int)(Math.random()*220)+1,(int)(Math.random()*220)+1,(int)(Math.random()*220)+1);
+		rect(myX,myY,50,50);
+		fill((int)(Math.random()*200)+30,(int)(Math.random()*220)+1,(int)(Math.random()*220)+1);
 		if(one == true){
-			ellipse(75,75,10,10);
+			ellipse(myX+25,myY+25,10,10);
 		} else if(two == true){
-			ellipse(60,60,10,10);
-			ellipse(90,90,10,10);
+			ellipse(myX+10,myY+10,10,10);
+			ellipse(myX+40,myY+40,10,10);
 		} else if(three == true){
-			ellipse(75,75,10,10);
-			ellipse(90,60,10,10);
-			ellipse(60,90,10,10);
+			ellipse(myX+40,myY+10,10,10);
+			ellipse(myX+25,myY+25,10,10);
+			ellipse(myX+10,myY+40,10,10);
 		} else if(four == true){
-			ellipse(60,60,10,10);
-			ellipse(90,90,10,10);
-			ellipse(90,60,10,10);
-			ellipse(60,90,10,10);
+			ellipse(myX+10,myY+10,10,10);
+			ellipse(myX+10,myY+40,10,10);
+			ellipse(myX+40,myY+40,10,10);
+			ellipse(myX+40,myY+10,10,10);
+		} else if(five == true){
+			ellipse(myX+10,myY+10,10,10);
+			ellipse(myX+10,myY+40,10,10);
+			ellipse(myX+40,myY+40,10,10);
+			ellipse(myX+40,myY+10,10,10);
+			ellipse(myX+25,myY+25,10,10);
+		} else if(six == true){
+			ellipse(myX+10,myY+10,10,10);
+			ellipse(myX+10,myY+40,10,10);
+			ellipse(myX+40,myY+40,10,10);
+			ellipse(myX+40,myY+10,10,10);
+			ellipse(myX+10,myY+25,10,10);
+			ellipse(myX+40,myY+25,10,10);
 		}
 	}
 }
